@@ -1,15 +1,36 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+import { ThemeProvider } from "@/components/theme-provider";
+import Navbar from "@/components/navbar";
+const spaceGrotesk = localFont({
+  src: [{
+    path: "../public/fonts/SpaceGrotesk-Regular.ttf",
+    weight: "400",
+    style: "normal",
+  },
+  {
+    path: "../public/fonts/SpaceGrotesk-Medium.ttf",
+    weight: "500",
+    style: "medium",
+  },
+  {
+    path: "../public/fonts/SpaceGrotesk-Bold.ttf",
+    weight: "700",
+    style: "bold",
+  },
+  {
+    path: "../public/fonts/SpaceGrotesk-SemiBold.ttf",
+    weight: "600",
+    style: "semibold",
+  },
+  {
+    path: "../public/fonts/SpaceGrotesk-Light.ttf",
+    weight: "300",
+    style: "light",
+  },
+],
+  variable: "--font-space-grotesk",
 });
 
 export const metadata: Metadata = {
@@ -23,11 +44,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${spaceGrotesk.variable} font-sans`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
