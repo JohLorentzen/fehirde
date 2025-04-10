@@ -8,6 +8,7 @@ export interface AllocationData {
   name: string;
   value: number;
   color: string;
+  percentage?: number;
 }
 
 interface InvestmentDonutChartProps {
@@ -16,6 +17,8 @@ interface InvestmentDonutChartProps {
   className?: string;
 }
 
+// Using any for recharts complex types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -45,6 +48,7 @@ const DonutChart: React.FC<InvestmentDonutChartProps> = ({
     percentage: Math.round((item.value / total) * 100)
   }));
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleMouseEnter = (_: any, index: number) => {
     setActiveIndex(index);
   };
@@ -53,12 +57,14 @@ const DonutChart: React.FC<InvestmentDonutChartProps> = ({
     setActiveIndex(null);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderLegend = (props: any) => {
     const { payload } = props;
     
     return (
       <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4">
-        {payload.map((entry: AllocationData, index: number) => (
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {payload.map((entry: any, index: number) => (
           <li 
             key={`item-${index}`} 
             className={cn(
